@@ -7,10 +7,13 @@
         </v-toolbar>
 
         <div class="pl-4 pr-4 pt-4 pb-2">
-          <input type="email" name="email" v-model="email" placeholder="email" />
-          <br>
-          <input type="password" name="password" v-model="password" placeholder="password" />
-          <br>
+           <v-flex xs12 offset-xs5 sm6 md3>
+            <v-text-field label="Email" v-model="email" ></v-text-field>
+           </v-flex>
+          <v-flex xs12 offset-xs5 sm6 md3>
+            <v-text-field label="PASSWORD" v-model="password" ></v-text-field>
+           </v-flex>
+           <br>
           <div class="error" v-html="error" />
           <br>
           <v-btn class="cyan" @click="register">Register</v-btn>
