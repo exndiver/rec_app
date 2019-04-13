@@ -1,16 +1,16 @@
 <template>
   <v-layout>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
+      <div class="white elevation-2 login-form">
         <v-toolbar flat dense dark>
           <v-toolbar-title>Registration</v-toolbar-title>
         </v-toolbar>
 
         <div class="pl-4 pr-4 pt-4 pb-2">
-           <v-flex xs12 offset-xs5 sm6 md3>
+           <v-flex xs12 sm6 md3>
             <v-text-field label="Email" v-model="email" ></v-text-field>
            </v-flex>
-          <v-flex xs12 offset-xs5 sm6 md3>
+          <v-flex xs12 sm6 md3>
             <v-text-field label="PASSWORD" v-model="password" ></v-text-field>
            </v-flex>
            <br>
@@ -27,7 +27,7 @@
 <script>
 import AuthAPI from '@/spa/AuthAPI'
 export default {
-  name: 'HelloWorld',
+  name: 'Register',
   data () {
     return {
       email: '',
@@ -54,5 +54,9 @@ export default {
 <style scoped>
 .error {
   color: red;
+}
+
+.login-form {
+  margin-top: 35px;
 }
 </style>
