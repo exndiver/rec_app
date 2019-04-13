@@ -6,6 +6,8 @@ To run execute in both dirs:
 cd client
 npm install
 npm start
+or
+npm run dev
 ```
 
 Styles - vuetify
