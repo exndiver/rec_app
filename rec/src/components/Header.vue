@@ -2,6 +2,11 @@
 <v-toolbar>
   <v-toolbar-title @click="navigate({name: 'Main'})" class="main_page">Reciples!</v-toolbar-title>
   <v-spacer></v-spacer>
+   <v-toolbar-items>
+    <v-btn flat @click="navigate({name: 'Login'})">
+     Login
+    </v-btn>
+  </v-toolbar-items>
   <v-toolbar-items>
     <v-btn flat @click="navigate({name: 'Register'})">
      Sign Up
