@@ -9,5 +9,8 @@ module.exports = {
       host: process.env.DBHOST || 'localhost',
       storage: './reciples.sqlite'
     }
+  },
+  auth: {
+    jwtsecret: process.env.JWTSECRETE || '$eCrE!E'
   }
 }
