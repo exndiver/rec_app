@@ -14,18 +14,19 @@ module.exports = {
     try {
       const user = await User.create(req.body)
       const userJson = user.toJSON()
-      delete userJson.password
-      console.log(userJson)
+      delete userJson['password']
       res.send({
         user: userJson,
         token: jwtSignUser(userJson)
       })
     } catch (err) {
+      console.log(err)
       res.status(400).send({
         error: 'This email is already in use.'
       })
     }
   },
+
   async login (req, res) {
     try {
       const { email, password } = req.body
@@ -34,14 +35,14 @@ module.exports = {
           email: email
         }
       })
-
+      console.log(user)
       if (!user) {
         return res.status(403).send({
           error: 'The login info was incorrect'
         })
       }
 
-      const isPwdValid = password === user.password
+      const isPwdValid = user.comparePassword(password)
 
       if (!isPwdValid) {
         return res.status(403).send({
@@ -49,7 +50,7 @@ module.exports = {
         })
       }
       const userJson = user.toJSON()
-      delete userJson.password
+      delete userJson['password']
       res.send({
         user: userJson,
         token: jwtSignUser(userJson)

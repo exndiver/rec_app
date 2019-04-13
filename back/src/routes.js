@@ -9,4 +9,5 @@ module.exports = (app) => {
   })
 
   app.post('/register', AuthPolicy.register, AuthApi.register)
+  app.post('/login', AuthApi.login)
 }
