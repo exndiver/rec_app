@@ -1,4 +1,5 @@
 const AuthApi = require('./api/AuthApi')
+const RecApi = require('./api/RecipApi')
 const AuthPolicy = require('./policies/AuthPolicy')
 
 module.exports = (app) => {
@@ -10,4 +11,7 @@ module.exports = (app) => {
 
   app.post('/register', AuthPolicy.register, AuthApi.register)
   app.post('/login', AuthApi.login)
+
+  app.post('/GetRecById', RecApi.getRecById)
+  app.post('/AddRecipe', RecApi.addRecipe)
 }
