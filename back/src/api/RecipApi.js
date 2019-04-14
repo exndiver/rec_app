@@ -21,6 +21,25 @@ module.exports = {
     }
   },
 
+  async DelRecById (req, res) {
+    try {
+      const recipeId = req.body.id
+      await Recipe.destroy({
+        where: {
+          id: recipeId
+        }
+      })
+      res.send({
+        result: 'Deleted'
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(403).send({
+        error: 'The error has occured. Please try agin later'
+      })
+    }
+  },
+
   async addRecipe (req, res) {
     try {
       console.log(req.body)
