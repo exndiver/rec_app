@@ -1,8 +1,7 @@
 <template>
-<v-layout row>
+<v-layout>
   <v-flex>
     <v-toolbar>
-
       <v-toolbar-title class="main_page" @click="displaymenu()">
           <v-toolbar-side-icon></v-toolbar-side-icon>
         <span>Reciples!</span>
@@ -30,7 +29,14 @@
                   </v-list-tile-action>
                     <v-list-tile-title>Home</v-list-tile-title>
               </v-list-tile>
-            </v-list>
+              <v-divider align-end fill-height></v-divider>
+              <v-list-tile align-end fill-height @click="navigate({name: 'AddRecipe'})">
+                  <v-list-tile-action>
+                    <v-icon>fas fa-plus</v-icon>
+                  </v-list-tile-action>
+                    <v-list-tile-title>Add Recipe</v-list-tile-title>
+              </v-list-tile>
+              </v-list>
     </v-navigation-drawer>
     </v-flex>
   </v-layout>
