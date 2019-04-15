@@ -1,7 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersist from 'vuex-persist'
+import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
+
+const vuexPersistStorage = new VuexPersist({
+  key: 'recipe-app',
+  storage: localStorage,
+  modules: ['user']
+})
+
+const vuexPersistCookies = new VuexPersist({
+  key: 'recipe-app-session',
+  restoreState: (key, storage) => Cookies.getJSON(key),
+  saveState: (key, state, storage) =>
+    Cookies.set(key, state, {
+      expires: 30
+    }),
+  modules: ['token', 'isLoggedIn']
+})
 
 export default new Vuex.Store({
   strict: true,
@@ -13,7 +31,6 @@ export default new Vuex.Store({
   mutations: {
     setToken (state, token) {
       state.token = token
-      if (token) { console.log('true') }
       state.isLoggedIn = !!(token)
     },
     setUser (state, user) {
@@ -27,5 +44,6 @@ export default new Vuex.Store({
     setUser ({commit}, user) {
       commit('setUser', user)
     }
-  }
+  },
+  plugins: [vuexPersistStorage.plugin, vuexPersistCookies.plugin]
 })
