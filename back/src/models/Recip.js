@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     tags: DataTypes.STRING,
     ingedients: DataTypes.STRING,
-    time: DataTypes.STRING
+    time: DataTypes.STRING,
+    image: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate: somfunc,

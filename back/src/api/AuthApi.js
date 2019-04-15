@@ -42,7 +42,7 @@ module.exports = {
         })
       }
 
-      const isPwdValid = user.comparePassword(password)
+      const isPwdValid = await user.comparePassword(password)
 
       if (!isPwdValid) {
         return res.status(403).send({

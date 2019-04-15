@@ -1,13 +1,13 @@
 import Api from '@/spa/Api'
 
 export default{
-  getrecipebyid (credentials) {
-    return Api().post('GetRecById', credentials)
+  getrecipebyid (id) {
+    return Api().post('GetRecById', id)
   },
-  addrecipe (credentials) {
-    return Api().post('AddRecipe', credentials)
+  addrecipe (recipe) {
+    return Api().post('AddRecipe', recipe)
   },
-  removerecipebyid (credentials) {
-    return Api().post('DelRecipeById', credentials)
+  removerecipebyid (id) {
+    return Api().post('DelRecipeById', id)
   }
 }
