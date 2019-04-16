@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="white elevation-2 login-form">
 
-    <v-btn depressed small @click="getRecipe()">Test Get Product id 3</v-btn>
+    <v-btn depressed small @click="getRecipe()" dark>Test Get Product id 3</v-btn>
 
-    <v-btn depressed small @click="getAllProducts()">getAllProducts</v-btn>
+    <v-btn depressed small @click="getAllProducts()" dark>getAllProducts</v-btn>
     <br>
-    <v-text-field label="Search Product" v-model="search" ></v-text-field>
-    <v-btn depressed small @click="searchProducts()">Search Products (at least 2 chars)</v-btn>
+    <v-text-field label="Search Product" v-model="search"></v-text-field>
+    <v-btn depressed small @click="searchProducts()" dark>Search Products (at least 2 chars)</v-btn>
 
      <v-dialog v-model="dialog" data-app temporary absolute width="500">
        <v-card>
