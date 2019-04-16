@@ -1,6 +1,24 @@
 const { Recipe } = require('../models/')
+var request = require('request')
+const config = require('../config/config')
 
 module.exports = {
+  getAllProducts (req, res) {
+    var requestParams = {
+      uri: config.productssrv.host + '/GetAllProducts',
+      body: '',
+      method: 'GET',
+      headers: {
+        'X-Secret-key': config.productssrv.secrete
+      }
+    }
+    request(requestParams, function (err, response) {
+      console.log(err, response.body)
+      res.type('json')
+      res.send(response.body)
+    })
+  },
+
   async getRecById (req, res) {
     try {
       const recipeId = req.body.id
@@ -42,7 +60,6 @@ module.exports = {
 
   async addRecipe (req, res) {
     try {
-      console.log(req.body)
       const recipe = await Recipe.create(req.body)
       const recipeJson = recipe.toJSON()
       res.send({

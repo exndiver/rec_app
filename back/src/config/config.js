@@ -12,5 +12,9 @@ module.exports = {
   },
   auth: {
     jwtsecret: process.env.JWTSECRETE || '$eCrE!E'
+  },
+  productssrv: {
+    host: process.env.PRODSRVHOST || 'http://54.37.74.255:8080',
+    secrete: process.env.PRODSRVSECRETE || 't1!rew#pp3e1_!s'
   }
 }
