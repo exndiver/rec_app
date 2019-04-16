@@ -9,5 +9,11 @@ export default{
   },
   removerecipebyid (id) {
     return Api().post('DelRecipeById', id)
+  },
+  getallproducts () {
+    return Api().get('GetAllProducts')
+  },
+  searchproducts (name) {
+    return Api().get('SearchProducts/' + name)
   }
 }

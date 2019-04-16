@@ -13,7 +13,12 @@ module.exports = {
       }
     }
     request(requestParams, function (err, response) {
-      console.log(err, response.body)
+      if (err) {
+        res.status(403).send({
+          error: 'The error has occured. Please try agin later'
+        })
+        return
+      }
       res.type('json')
       res.send(response.body)
     })
