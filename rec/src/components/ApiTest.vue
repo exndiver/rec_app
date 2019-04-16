@@ -58,7 +58,11 @@ export default {
     },
     async searchProducts () {
       try {
-        if (this.search.length >= 2) { this.response = await RecipeAPI.searchproducts(this.search) } else { this.response.data = 'Enter more chars!' }
+        if (this.search.length >= 2) {
+          this.response = await RecipeAPI.searchproducts(this.search)
+        } else {
+          this.response.data = 'Enter more chars!'
+        }
         this.dialog = true
       } catch (err) {
         console.log(err)
