@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import RecipeAPI from '@/spa/RecipeAPI'
+
 export default {
   data () {
     return {
@@ -96,72 +98,7 @@ export default {
       AddTagWindow: false,
       newTag: null,
       AddProductWindow: false,
-      Products: [{
-        'id': '5ca910368cb40600621b0898',
-        'name': 'Mango',
-        'group': 'fruit',
-        'kcal': 62,
-        'composition': {
-          'carbohydrate': 12.5,
-          'protein': 0.6,
-          'fat': 0.4
-        }
-      },
-      {
-        'id': '5cae443b0d2dfa36c10d7794',
-        'name': 'Banana',
-        'group': 'fruit',
-        'kcal': 95,
-        'composition': {
-          'carbohydrate': 20.9,
-          'protein': 1.2,
-          'fat': 0.3
-        }
-      },
-      {
-        'id': '5cae4579a423bd2239a5e908',
-        'name': 'Lemon',
-        'group': 'fruit',
-        'kcal': 18,
-        'composition': {
-          'carbohydrate': 2.9,
-          'protein': 0.9,
-          'fat': 0.3
-        }
-      },
-      {
-        'id': '5cae469d545f17641fdada6c',
-        'name': 'Pomelos',
-        'group': 'fruit',
-        'kcal': 38,
-        'composition': {
-          'carbohydrate': 9.6,
-          'protein': 0.8,
-          'fat': 0
-        }
-      },
-      {
-        'id': '5cae476590e7374504d4244e',
-        'name': 'Raspberry',
-        'group': 'fruit',
-        'kcal': 25,
-        'composition': {
-          'carbohydrate': 4.7,
-          'protein': 1.3,
-          'fat': 0.3
-        }
-      },
-      {
-        'id': '5cae4804685a3c94dd73e69b',
-        'name': 'Strawberry',
-        'group': 'fruit',
-        'kcal': 28,
-        'composition': {
-          'carbohydrate': 5.99,
-          'protein': 0.8,
-          'fat': 0.1
-        }
-      }],
+      Products: [],
       headers: [
         {
           text: 'Products (100g serving)',
@@ -178,6 +115,15 @@ export default {
       },
       selected: [],
       AddedProducts: []
+    }
+  },
+  async mounted () {
+    try {
+      this.response = await RecipeAPI.getallproducts()
+      console.log(this.response.data)
+      this.response.data.forEach((element) => this.Products.push(element))
+    } catch (err) {
+      console.log(err)
     }
   },
   watch: {
