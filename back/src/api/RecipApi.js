@@ -18,7 +18,21 @@ module.exports = {
       res.send(response.body)
     })
   },
-
+  searchProducts (req, res) {
+    var requestParams = {
+      uri: config.productssrv.host + '/SearchProducts/' + req.params.productName,
+      body: '',
+      method: 'GET',
+      headers: {
+        'X-Secret-key': config.productssrv.secrete
+      }
+    }
+    request(requestParams, function (err, response) {
+      console.log(err, response.body)
+      res.type('json')
+      res.send(response.body)
+    })
+  },
   async getRecById (req, res) {
     try {
       const recipeId = req.body.id

@@ -16,4 +16,5 @@ module.exports = (app) => {
   app.post('/AddRecipe', RecApi.addRecipe)
   app.post('/DelRecipeById', RecApi.DelRecById)
   app.get('/GetAllProducts', RecApi.getAllProducts)
+  app.get('/SearchProducts/:productName', RecApi.searchProducts)
 }
