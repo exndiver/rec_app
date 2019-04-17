@@ -1,7 +1,3 @@
-function somfunc () {
-  console.log('Nothing')
-}
-
 module.exports = (sequelize, DataTypes) => {
   const Recipe = sequelize.define('Recipe', {
     title: DataTypes.STRING,
@@ -10,13 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     tags: DataTypes.STRING,
     ingedients: DataTypes.STRING,
     time: DataTypes.STRING,
-    image: DataTypes.STRING
-  }, {
-    hooks: {
-      beforeCreate: somfunc,
-      beforeUpdate: somfunc,
-      beforeSave: somfunc
-    }
+    image: DataTypes.STRING,
+    kcal: DataTypes.STRING,
+    composition: DataTypes.STRING
   })
+  Recipe.associate = (models) => {
+    Recipe.belongsToMany(models.Tags, {
+      through: 'RecipeTags',
+      as: 'Tags',
+      foreignKey: 'RecipeID'
+    })
+  }
   return Recipe
 }

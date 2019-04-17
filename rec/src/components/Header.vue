@@ -1,7 +1,7 @@
 <template>
 <v-layout>
   <v-flex>
-    <v-toolbar>
+    <v-toolbar class="elevation-0">
       <v-toolbar-title class="main_page" @click="displaymenu()">
           <v-toolbar-side-icon></v-toolbar-side-icon>
         <span>Reciples!</span>

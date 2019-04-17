@@ -1,17 +1,55 @@
 <template>
-   <v-layout align-start justify-center fill-height style="min">
-    <v-flex xs12 sm10 md8 lg6>
+   <v-layout align-start justify-center row fill-height >
+    <v-flex xs12 sm10 md8 lg6 fill-height>
       <v-card ref="form">
+        <v-container
+          id="scroll-target"
+          class="scroll-y"
+          fluid ma-0 pa-0 fill-height
+        >
         <v-card-text>
           <v-text-field ref="title" v-model="title" clearable :rules="[() => !!title || 'This field is required']" :error-messages="errorMessages" label="Recipe title" required></v-text-field>
           <v-textarea ref="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
           <v-select v-model="resType" clearable chips deletable-chips :items="items" attach label="Type" multiple required></v-select>
-          <v-layout align-center justify-space-around row ><v-select v-model="resTags" selection="disabled: false" type='text' clearable chips deletable-chips :items="tags" attach label="Tags" multiple ></v-select> <v-icon absolute top right @click="AddTagWindow = true">add</v-icon></v-layout>
-          <v-layout align-center justify-space-around row ><p>Ingredients? </p><v-icon absolute top right @click="OpenAddProduct">add</v-icon></v-layout>
+          <v-layout align-center justify-space-around row ><v-select v-model="resTags" selection="disabled: false" type='text' clearable chips deletable-chips :items="tags" item-text="name" item-value="id" attach label="Tags" multiple ></v-select> <v-icon absolute top right @click="AddTagWindow = true">add</v-icon></v-layout>
+          <v-layout align-center justify-space-between row fill-height>
+          <v-flex xs12 sm5 md3><v-text-field xs12  ref="timetocook" v-model="timetocook" clearable :rules="[() => !!timetocook || 'This field is required']" :error-messages="errorMessages" label="Cooking time" required></v-text-field></v-flex>
+          <v-data-table :items="AddedProducts" :hide-actions="true" :hide-headers='true' class="elevation-1">
+            <template v-slot:no-data>
+                Add some Ingredients
+            </template>
+            <template v-slot:items="props">
+              <tr>
+                <td>{{ props.item.name }}</td>
+                <td > <v-flex>
+                  <v-text-field
+                    value="100"
+                    label="Amount (g)"
+                    reverse
+                    ></v-text-field>
+                  </v-flex>
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
+          <v-btn right class="elevation-1" @click="OpenAddProduct" >
+            <v-icon >add</v-icon>
+          </v-btn></v-layout>
 
+          <v-layout align-center justify-space-between row fill-height>
+            <v-text-field ref="imagefile" v-model="imagefile" clearable :rules="[() => !!imagefile || 'This field is required']" :error-messages="errorMessages" label="URL to file" required></v-text-field>
+          </v-layout>
+
+           <v-layout align-center justify-space-between row fill-height>
+          <v-flex xs12 sm5 md2><v-text-field ref="kcal" v-model="kcal" clearable :rules="[() => !!kcal || 'This field is required']" :error-messages="errorMessages" label="Calories" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs12 sm5 md2><v-text-field ref="fat" v-model="fat" clearable :rules="[() => !!fat || 'This field is required']" :error-messages="errorMessages" label="Fat (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs12 sm5 md2><v-text-field ref="carbs" v-model="carbs" clearable :rules="[() => !!carbs || 'This field is required']" :error-messages="errorMessages" label="Carbohydrate (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs12 sm5 md2><v-text-field ref="protein" v-model="protein" clearable :rules="[() => !!protein || 'This field is required']" :error-messages="errorMessages" label="Protein (g)" placeholder="0" required></v-text-field></v-flex>
+          </v-layout>
         </v-card-text>
+        </v-container>
         <v-divider class="mt-5"></v-divider>
-        <v-card-actions>
+        <v-card-actions >
           <v-btn flat>Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
@@ -23,21 +61,6 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-
-     <v-dialog data-app v-model="AddTagWindow" max-width="290">
-      <v-card>
-        <v-card-title class="headline">New Tag</v-card-title>
-        <v-card-text>
-          <v-text-field ref="NewTag" v-model="newTag" clearable :rules="[() => !!newTag || 'This field is required']" :error-messages="errorMessages" label="New Tag" required></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat="flat" @click="AddTagWindow = false" >Cancel</v-btn>
-          <v-btn color="green darken-1" flat="flat" @click="AddNewTag">Add</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <v-dialog v-model="AddProductWindow" max-width="900">
       <v-card>
         <v-card-title class="headline">Add Ingredient</v-card-title>
@@ -73,20 +96,38 @@
           <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" flat="flat" @click="AddProductWindow = false" >Cancel</v-btn>
-          <v-btn color="green darken-1" flat="flat" @click="AddIngredient ">Add</v-btn>
+          <v-btn color="green darken-1" flat="flat" @click="AddIngredient ">Update</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+    <v-dialog v-model="AddTagWindow" max-width="290">
+      <v-card>
+        <v-card-title class="headline">New Tag</v-card-title>
+        <v-card-text>
+          <v-text-field ref="NewTag" v-model="newTag" clearable :rules="[() => !!newTag || 'This field is required']" :error-messages="errorMessages" label="New Tag" required></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" @click="AddTagWindow = false" >Cancel</v-btn>
+          <v-btn color="green darken-1" flat="flat" @click="AddNewTag">Add</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 
 <script>
 import RecipeAPI from '@/spa/RecipeAPI'
+import Modaladdtag from './Modaladdtag.vue'
 
 export default {
+  name: 'AddRecipe',
+  componens: {
+    Modaladdtag: Modaladdtag
+  },
   data () {
     return {
+      recipe: null,
       errorMessages: '',
       formHasErrors: false,
       title: null,
@@ -94,7 +135,7 @@ export default {
       resType: null,
       items: ['Breakfast', 'Lunch', 'Diner', 'Snack'],
       resTags: null,
-      tags: ['tag1', 'tag2'],
+      tags: [{id: 0, name: 'tag1'}, {id: 2, name: 'tag2'}],
       AddTagWindow: false,
       newTag: null,
       AddProductWindow: false,
@@ -114,13 +155,18 @@ export default {
         sortBy: 'name'
       },
       selected: [],
-      AddedProducts: []
+      AddedProducts: [],
+      timetocook: null,
+      imagefile: null,
+      kcal: null,
+      fat: null,
+      carbs: null,
+      protein: null
     }
   },
   async mounted () {
     try {
       this.response = await RecipeAPI.getallproducts()
-      console.log(this.response.data)
       this.response.data.forEach((element) => this.Products.push(element))
     } catch (err) {
       console.log(err)
@@ -136,7 +182,12 @@ export default {
       return {
         title: this.title,
         describtion: this.describtion,
-        resType: this.resType
+        timetocook: this.timetocook,
+        imagefile: this.imagefile,
+        kcal: this.kcal,
+        fat: this.fat,
+        carbs: this.carbs,
+        protein: this.protein
       }
     }
   },
@@ -147,15 +198,6 @@ export default {
 
       Object.keys(this.form).forEach(f => {
         this.$refs[f].reset()
-      })
-    },
-    submit () {
-      this.formHasErrors = false
-
-      Object.keys(this.form).forEach(f => {
-        if (!this.form[f]) this.formHasErrors = true
-
-        this.$refs[f].validate(true)
       })
     },
     AddNewTag () {
@@ -180,6 +222,30 @@ export default {
       } else {
         this.pagination.sortBy = column
         this.pagination.descending = false
+      }
+    },
+    submit () {
+      this.formHasErrors = false
+      if (!Object.keys(this.form).forEach(f => {
+        if (!this.form[f]) this.formHasErrors = true
+        return this.$refs[f].validate(true)
+      })) {
+        this.recipe = {
+          title: this.title,
+          description: this.describtion,
+          type: this.type,
+          tags: this.resTags,
+          ingedients: this.AddedProducts,
+          time: this.time,
+          image: this.imagefile,
+          kcal: this.kcal,
+          composition: {
+            fat: this.fat,
+            carbs: this.carbs,
+            protein: this.protein
+          }
+        }
+        console.log(this.recipe)
       }
     }
   }
