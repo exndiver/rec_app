@@ -2,11 +2,7 @@
    <v-layout align-start justify-center row fill-height >
     <v-flex xs12 sm10 md8 lg6 fill-height>
       <v-card ref="form">
-        <v-container
-          id="scroll-target"
-          class="scroll-y"
-          fluid ma-0 pa-0 fill-height
-        >
+        <v-container id="scroll-target" class="scroll-y" fluid ma-0 pa-0 fill-height >
         <v-card-text>
           <v-text-field ref="title" v-model="title" clearable :rules="[() => !!title || 'This field is required']" :error-messages="errorMessages" label="Recipe title" required></v-text-field>
           <v-textarea ref="describtion" v-model="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
@@ -26,12 +22,7 @@
               <tr>
                 <td>{{ props.item.name }}</td>
                 <td > <v-flex>
-                  <v-text-field
-                    value="100"
-                    label="Amount (g)"
-                    reverse
-                    type="number"
-                    ></v-text-field>
+                  <v-text-field value="100" label="Amount (g)" reverse type="number"></v-text-field>
                   </v-flex>
                 </td>
               </tr>
@@ -175,11 +166,11 @@ export default {
     try {
       this.response = await RecipeAPI.getallproducts()
       this.response.data.forEach((element) => this.Products.push(element))
+      this.response = await TagsAPI.getalltags()
+      this.response.data['tag'].forEach((element) => this.tags.push(element))
     } catch (err) {
       console.log(err)
     }
-    this.response = await TagsAPI.getalltags()
-    this.response.data['tag'].forEach((element) => this.tags.push(element))
   },
   watch: {
     name () {
@@ -264,9 +255,13 @@ export default {
             protein: this.protein
           })
         }
-        console.log(this.recipe)
         this.response = await RecipeAPI.addrecipe(this.recipe)
-        console.log(this.response)
+        this.$router.push({
+          name: 'Recipe',
+          params: {
+            recipeId: this.response.data.recipe.id
+          }
+        })
       }
     }
   }

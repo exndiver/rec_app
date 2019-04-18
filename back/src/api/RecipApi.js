@@ -4,6 +4,7 @@ const { RecipeTags } = require('../models/')
 module.exports = {
   async getRecById (req, res) {
     try {
+      console.log(req)
       const recipeId = req.body.id
       const recipe = await Recipe.findOne({
         where: {

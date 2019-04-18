@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import ApiTest from '@/components/ApiTest'
 import AddRecipe from '@/components/AddRecipe'
+import Recipe from '@/components/Recipe'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/addrecipe',
       name: 'AddRecipe',
       component: AddRecipe
+    },
+    {
+      path: '/recipe/:recipeId',
+      name: 'Recipe',
+      component: Recipe
     },
     {
       path: '/apitest',
