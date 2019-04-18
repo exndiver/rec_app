@@ -24,7 +24,6 @@ module.exports = {
   },
 
   addProduct (req, res) {
-    console.log(req.body)
     var requestParams = {
       uri: config.productssrv.host + '/AddProduct',
       json: req.body,
@@ -55,7 +54,7 @@ module.exports = {
       }
     }
     request(requestParams, function (err, response) {
-      console.log(err, response.body)
+      console.log(err)
       res.type('json')
       res.send(response.body)
     })
