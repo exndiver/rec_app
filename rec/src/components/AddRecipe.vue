@@ -22,7 +22,7 @@
               <tr>
                 <td>{{ props.item.name }}</td>
                 <td > <v-flex>
-                  <v-text-field value="100" label="Amount (g)" reverse type="number"></v-text-field>
+                  <v-text-field v-model="props.item.amount" value="100" label="Amount (g)" reverse type="number"></v-text-field>
                   </v-flex>
                 </td>
               </tr>
@@ -235,10 +235,11 @@ export default {
       this.AddedProducts.forEach((element) => {
         this.ProductLis.push({
           id: element.id,
-          name: element.name
+          name: element.name,
+          amount: element.amount
         })
       })
-
+      console.log(this.ProductLis)
       if (!this.formHasErrors) {
         this.recipe = {
           title: this.title,
