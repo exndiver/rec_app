@@ -22,6 +22,29 @@ module.exports = {
       res.send(response.body)
     })
   },
+
+  addProduct (req, res) {
+    console.log(req.body)
+    var requestParams = {
+      uri: config.productssrv.host + '/AddProduct',
+      json: req.body,
+      method: 'POST',
+      headers: {
+        'X-Secret-key': config.productssrv.secrete
+      }
+    }
+    request(requestParams, function (err, response) {
+      if (err) {
+        res.status(403).send({
+          error: 'The error has occured. Please try agin later'
+        })
+        return
+      }
+      res.type('json')
+      res.send(response.body)
+    })
+  },
+
   searchProducts (req, res) {
     var requestParams = {
       uri: config.productssrv.host + '/SearchProducts/' + req.params.productName,
