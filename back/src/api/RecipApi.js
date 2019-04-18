@@ -1,4 +1,5 @@
 const { Recipe } = require('../models/')
+const { RecipeTags } = require('../models/')
 
 module.exports = {
   async getRecById (req, res) {
@@ -44,8 +45,23 @@ module.exports = {
     try {
       const recipe = await Recipe.create(req.body)
       const recipeJson = recipe.toJSON()
+      JSON.parse(req.body.tags).forEach(element => {
+        const tagstolink = {
+          'RecipeID': recipeJson.id,
+          'TagID': element
+        }
+        RecipeTags.create(tagstolink)
+      })
+
+      /*
+      cons tagstolink = {
+        RecipeID: recipeJson.id,
+        TagID: req.body.
+      }
+      const recipetags = RecipeTags.create() */
       res.send({
         recipe: recipeJson
+        // tags: recipetags
       })
     } catch (err) {
       console.log(err)

@@ -23,7 +23,6 @@ module.exports = {
   async getTags (req, res) {
     try {
       const tag = await Tag.findAll({ raw: true })
-      console.log(tag)
       // const tagJson = tag.toJSON()
       res.send({
         tag: tag

@@ -9,12 +9,16 @@
         >
         <v-card-text>
           <v-text-field ref="title" v-model="title" clearable :rules="[() => !!title || 'This field is required']" :error-messages="errorMessages" label="Recipe title" required></v-text-field>
-          <v-textarea ref="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
-          <v-select v-model="resType" clearable chips deletable-chips :items="items" attach label="Type" multiple required></v-select>
+          <v-textarea ref="describtion" v-model="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
+
+          <v-select v-model="resType" clearable chips deletable-chips :items="items" attach label="Type" multiple ></v-select>
+
           <v-layout align-center justify-space-around row ><v-select v-model="resTags" selection="disabled: false" type='text' clearable chips deletable-chips :items="tags" item-text="name" item-value="id" attach label="Tags" multiple ></v-select> <v-icon absolute top right @click="AddTagWindow = true">add</v-icon></v-layout>
+
           <v-layout align-center justify-space-between row fill-height>
-          <v-flex xs12 sm5 md3><v-text-field xs12  ref="timetocook" v-model="timetocook" clearable :rules="[() => !!timetocook || 'This field is required']" :error-messages="errorMessages" label="Cooking time" required></v-text-field></v-flex>
+          <v-flex xs2 sm4 md1><v-text-field xs12  ref="timetocook" type="number" v-model="timetocook" :rules="[() => !!timetocook || '*']" :error-messages="errorMessages" label="Time" placeholder="Min" required></v-text-field></v-flex>
           <v-data-table :items="AddedProducts" :hide-actions="true" :hide-headers='true' class="elevation-1">
+
             <template v-slot:no-data>
                 Add some Ingredients
             </template>
@@ -26,6 +30,7 @@
                     value="100"
                     label="Amount (g)"
                     reverse
+                    type="number"
                     ></v-text-field>
                   </v-flex>
                 </td>
@@ -41,10 +46,10 @@
           </v-layout>
 
            <v-layout align-center justify-space-between row fill-height>
-          <v-flex xs12 sm5 md2><v-text-field ref="kcal" v-model="kcal" clearable :rules="[() => !!kcal || 'This field is required']" :error-messages="errorMessages" label="Calories" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs12 sm5 md2><v-text-field ref="fat" v-model="fat" clearable :rules="[() => !!fat || 'This field is required']" :error-messages="errorMessages" label="Fat (g)" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs12 sm5 md2><v-text-field ref="carbs" v-model="carbs" clearable :rules="[() => !!carbs || 'This field is required']" :error-messages="errorMessages" label="Carbohydrate (g)" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs12 sm5 md2><v-text-field ref="protein" v-model="protein" clearable :rules="[() => !!protein || 'This field is required']" :error-messages="errorMessages" label="Protein (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field type="number" ref="kcal" v-model="kcal" :rules="[() => !!kcal || '*']" :error-messages="errorMessages" label="Calories" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field type="number" ref="fat" v-model="fat"  :rules="[() => !!fat || '*']" :error-messages="errorMessages" label="Fat (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field type="number" ref="carbs" v-model="carbs" :rules="[() => !!carbs || '*']" :error-messages="errorMessages" label="Carbohydrate (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field type="number" ref="protein" v-model="protein" :rules="[() => !!protein || '*']" :error-messages="errorMessages" label="Protein (g)" placeholder="0" required></v-text-field></v-flex>
           </v-layout>
         </v-card-text>
         </v-container>
@@ -118,6 +123,7 @@
 
 <script>
 import RecipeAPI from '@/spa/RecipeAPI'
+import TagsAPI from '@/spa/TagsAPI'
 import Modaladdtag from './Modaladdtag.vue'
 
 export default {
@@ -135,7 +141,7 @@ export default {
       resType: null,
       items: ['Breakfast', 'Lunch', 'Diner', 'Snack'],
       resTags: null,
-      tags: [{id: 0, name: 'tag1'}, {id: 2, name: 'tag2'}],
+      tags: [],
       AddTagWindow: false,
       newTag: null,
       AddProductWindow: false,
@@ -161,7 +167,8 @@ export default {
       kcal: null,
       fat: null,
       carbs: null,
-      protein: null
+      protein: null,
+      ProductLis: []
     }
   },
   async mounted () {
@@ -171,6 +178,8 @@ export default {
     } catch (err) {
       console.log(err)
     }
+    this.response = await TagsAPI.getalltags()
+    this.response.data['tag'].forEach((element) => this.tags.push(element))
   },
   watch: {
     name () {
@@ -224,28 +233,40 @@ export default {
         this.pagination.descending = false
       }
     },
-    submit () {
+    async submit () {
       this.formHasErrors = false
-      if (!Object.keys(this.form).forEach(f => {
+      Object.keys(this.form).forEach(f => {
         if (!this.form[f]) this.formHasErrors = true
         return this.$refs[f].validate(true)
-      })) {
+      })
+      this.tagsString = JSON.stringify(this.resTags)
+      this.typeString = JSON.stringify(this.resType)
+      this.AddedProducts.forEach((element) => {
+        this.ProductLis.push({
+          id: element.id,
+          name: element.name
+        })
+      })
+
+      if (!this.formHasErrors) {
         this.recipe = {
           title: this.title,
           description: this.describtion,
-          type: this.type,
-          tags: this.resTags,
-          ingedients: this.AddedProducts,
-          time: this.time,
+          type: this.typeString,
+          tags: this.tagsString,
+          ingedients: JSON.stringify(this.ProductLis),
+          time: this.timetocook,
           image: this.imagefile,
           kcal: this.kcal,
-          composition: {
+          composition: JSON.stringify({
             fat: this.fat,
             carbs: this.carbs,
             protein: this.protein
-          }
+          })
         }
         console.log(this.recipe)
+        this.response = await RecipeAPI.addrecipe(this.recipe)
+        console.log(this.response)
       }
     }
   }
