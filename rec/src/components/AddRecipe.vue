@@ -46,7 +46,6 @@
         </v-container>
         <v-divider class="mt-5"></v-divider>
         <v-card-actions >
-          <v-btn flat>Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
                 <v-btn v-if="formHasErrors" icon class="my-0" @click="resetForm">
@@ -59,7 +58,11 @@
     </v-flex>
     <v-dialog v-model="AddProductWindow" max-width="900">
       <v-card>
-        <v-card-title class="headline">Add Ingredient</v-card-title>
+        <v-card-title class="headline">Add Ingredient<v-spacer></v-spacer>
+         <v-tooltip bottom> <template v-slot:activator="{ on }">
+          <v-btn fab dark color="indigo" v-on="on" @click="navigate({name: 'AddProduct'})"> <v-icon dark>add</v-icon></v-btn>
+        </template> <span>Add New Product (You gonna lose oll the data on this form)</span></v-tooltip>
+        </v-card-title>
         <v-card-text>
 
           <v-data-table v-model="selected" :headers="headers" :items="Products" :pagination.sync="pagination" select-all item-key="name" class="elevation-1">
@@ -192,6 +195,9 @@ export default {
     }
   },
   methods: {
+    navigate (route) {
+      this.$router.push(route)
+    },
     resetForm () {
       this.errorMessages = []
       this.formHasErrors = false
@@ -239,7 +245,6 @@ export default {
           amount: element.amount
         })
       })
-      console.log(this.ProductLis)
       if (!this.formHasErrors) {
         this.recipe = {
           title: this.title,
