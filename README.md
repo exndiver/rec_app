@@ -3,10 +3,14 @@
 
 To run execute in both dirs:
 ```
-cd client
 npm install
+```
+Then in bacend:
+```
 npm start
-or
+```
+And in frontend:
+```
 npm run dev
 ```
 
