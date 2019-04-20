@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import ApiTest from '@/components/ApiTest'
 import AddRecipe from '@/components/AddRecipe'
 import Recipe from '@/components/Recipe'
+import Recipe2 from '@/components/Recipe2'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/recipe/:recipeId',
       name: 'Recipe',
       component: Recipe
+    },
+    {
+      path: '/recipe',
+      name: 'Recipe',
+      component: Recipe2
     },
     {
       path: '/apitest',
