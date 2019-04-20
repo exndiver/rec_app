@@ -13,6 +13,9 @@ import Recipe from '@/components/Recipe'
 // Product stuff
 import AddProduct from '@/components/AddProduct'
 
+// Tags
+import AddTag from '@/components/AddTag'
+
 // Tests
 import ApiTest from '@/components/ApiTest'
 
@@ -57,6 +60,13 @@ export default new Router({
       path: '/addproduct',
       name: 'AddProduct',
       component: AddProduct
+    },
+
+    // Tags Stuff
+    {
+      path: '/addtag',
+      name: 'Addtag',
+      component: AddTag
     },
 
     // Tests
