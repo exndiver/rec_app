@@ -9,7 +9,6 @@ import Login from '@/components/Login'
 // Recipes stuff
 import AddRecipe from '@/components/AddRecipe'
 import Recipe from '@/components/Recipe'
-import Recipe2 from '@/components/Recipe2'
 
 // Product stuff
 import AddProduct from '@/components/AddProduct'
@@ -61,11 +60,6 @@ export default new Router({
     },
 
     // Tests
-    {
-      path: '/recipe',
-      name: 'Recipe',
-      component: Recipe2
-    },
     {
       path: '/apitest',
       name: 'Apitest',
