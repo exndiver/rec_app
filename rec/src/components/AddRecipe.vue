@@ -238,9 +238,12 @@ export default {
         protein: this.protein
       })
     },
-    AddNewTag () {
+    async AddNewTag () {
+      const response = await TagsAPI.addtag({
+        name: this.title
+      })
+      console.log(response)
       this.AddTagWindow = false
-      this.tags.push(this.newTag)
     },
     OpenAddProduct () {
       this.AddProductWindow = true
