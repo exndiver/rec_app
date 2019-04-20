@@ -55,6 +55,7 @@ module.exports = {
 
   async addTag (req, res) {
     try {
+      console.log(req)
       const tag = await Tag.create(req.body)
       const tagJson = tag.toJSON()
       res.send({
