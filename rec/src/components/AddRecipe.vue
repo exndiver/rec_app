@@ -240,9 +240,11 @@ export default {
     },
     async AddNewTag () {
       const response = await TagsAPI.addtag({
-        name: this.title
+        name: this.newTag
       })
       console.log(response)
+      this.response = await TagsAPI.getalltags()
+      this.response.data['tag'].forEach((element) => this.tags.push(element))
       this.AddTagWindow = false
     },
     OpenAddProduct () {

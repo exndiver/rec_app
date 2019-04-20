@@ -82,7 +82,7 @@ export default {
       const responseData = await RecipeAPI.getrecipebyid({ id: recipeId })
       /* Need to be ralaced */
       responseData.data.recipe.image = 'https://www.cookingclassy.com/wp-content/uploads/2014/03/hummus-31.jpg'
-      //require('@/assets/recipe1.jpg')
+      // require('@/assets/recipe1.jpg')
       /* */
       this.response = responseData.data.recipe
     } catch (err) {
