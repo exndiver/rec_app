@@ -4,15 +4,15 @@
       <v-card ref="form">
         <v-container id="scroll-target" class="scroll-y" fluid ma-0 pa-0 fill-height >
         <v-card-text>
-          <v-text-field ref="title" v-model="title" clearable :rules="[() => !!title || 'This field is required']" :error-messages="errorMessages" label="Recipe title" required></v-text-field>
-          <v-textarea ref="describtion" v-model="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
+          <v-text-field ref="title" @change="saveProduct()" v-model="title" clearable :rules="[() => !!title || 'This field is required']" :error-messages="errorMessages" label="Recipe title" required></v-text-field>
+          <v-textarea ref="describtion" @change="saveProduct()" v-model="describtion" name="describtion" label="Recipe description" value="" hint="Enter description for your reciple" :rules="[() => !!describtion || 'This field is required']" :error-messages="errorMessages" required></v-textarea>
 
-          <v-select v-model="resType" clearable chips deletable-chips :items="items" attach label="Type" multiple ></v-select>
+          <v-select v-model="resType" @change="saveProduct()" clearable chips deletable-chips :items="items" attach label="Type" multiple ></v-select>
 
-          <v-layout align-center justify-space-around row ><v-select v-model="resTags" selection="disabled: false" type='text' clearable chips deletable-chips :items="tags" item-text="name" item-value="id" attach label="Tags" multiple ></v-select> <v-icon absolute top right @click="AddTagWindow = true">add</v-icon></v-layout>
+          <v-layout align-center justify-space-around row ><v-select @change="saveProduct()" v-model="resTags" selection="disabled: false" type='text' clearable chips deletable-chips :items="tags" item-text="name" item-value="id" attach label="Tags" multiple ></v-select> <v-icon absolute top right @click="AddTagWindow = true">add</v-icon></v-layout>
 
           <v-layout align-center justify-space-between row fill-height>
-          <v-flex xs2 sm4 md1><v-text-field xs12  ref="timetocook" type="number" v-model="timetocook" :rules="[() => !!timetocook || '*']" :error-messages="errorMessages" label="Time" placeholder="Min" required></v-text-field></v-flex>
+          <v-flex xs2 sm4 md1><v-text-field @change="saveProduct()" xs12  ref="timetocook" type="number" v-model="timetocook" :rules="[() => !!timetocook || '*']" :error-messages="errorMessages" label="Time" placeholder="Min" required></v-text-field></v-flex>
           <v-data-table :items="AddedProducts" :hide-actions="true" :hide-headers='true' class="elevation-1">
 
             <template v-slot:no-data>
@@ -33,20 +33,19 @@
           </v-btn></v-layout>
 
           <v-layout align-center justify-space-between row fill-height>
-            <v-text-field ref="imagefile" v-model="imagefile" clearable :rules="[() => !!imagefile || 'This field is required']" :error-messages="errorMessages" label="URL to file" required></v-text-field>
+            <v-text-field @change="saveProduct()" ref="imagefile" v-model="imagefile" clearable :rules="[() => !!imagefile || 'This field is required']" :error-messages="errorMessages" label="URL to file" required></v-text-field>
           </v-layout>
 
            <v-layout align-center justify-space-between row fill-height>
-          <v-flex xs2 sm5 md2><v-text-field type="number" ref="kcal" v-model="kcal" :rules="[() => !!kcal || '*']" :error-messages="errorMessages" label="Calories" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs2 sm5 md2><v-text-field type="number" ref="fat" v-model="fat"  :rules="[() => !!fat || '*']" :error-messages="errorMessages" label="Fat (g)" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs2 sm5 md2><v-text-field type="number" ref="carbs" v-model="carbs" :rules="[() => !!carbs || '*']" :error-messages="errorMessages" label="Carbohydrate (g)" placeholder="0" required></v-text-field></v-flex>
-          <v-flex xs2 sm5 md2><v-text-field type="number" ref="protein" v-model="protein" :rules="[() => !!protein || '*']" :error-messages="errorMessages" label="Protein (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field @change="saveProduct()" type="number" ref="kcal" v-model="kcal" :rules="[() => !!kcal || '*']" :error-messages="errorMessages" label="Calories" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field @change="saveProduct()" type="number" ref="fat" v-model="fat"  :rules="[() => !!fat || '*']" :error-messages="errorMessages" label="Fat (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field @change="saveProduct()" type="number" ref="carbs" v-model="carbs" :rules="[() => !!carbs || '*']" :error-messages="errorMessages" label="Carbohydrate (g)" placeholder="0" required></v-text-field></v-flex>
+          <v-flex xs2 sm5 md2><v-text-field @change="saveProduct()" type="number" ref="protein" v-model="protein" :rules="[() => !!protein || '*']" :error-messages="errorMessages" label="Protein (g)" placeholder="0" required></v-text-field></v-flex>
           </v-layout>
         </v-card-text>
         </v-container>
         <v-divider class="mt-5"></v-divider>
         <v-card-actions >
-          <v-btn flat>Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
                 <v-btn v-if="formHasErrors" icon class="my-0" @click="resetForm">
@@ -59,7 +58,11 @@
     </v-flex>
     <v-dialog v-model="AddProductWindow" max-width="900">
       <v-card>
-        <v-card-title class="headline">Add Ingredient</v-card-title>
+        <v-card-title class="headline">Add Ingredient<v-spacer></v-spacer>
+         <v-tooltip bottom> <template v-slot:activator="{ on }">
+          <v-btn fab dark color="indigo" v-on="on" @click="navigate({name: 'AddProduct'})"> <v-icon dark>add</v-icon></v-btn>
+        </template> <span>Add New Product (You gonna lose oll the data on this form)</span></v-tooltip>
+        </v-card-title>
         <v-card-text>
 
           <v-data-table v-model="selected" :headers="headers" :items="Products" :pagination.sync="pagination" select-all item-key="name" class="elevation-1">
@@ -127,11 +130,20 @@ export default {
       recipe: null,
       errorMessages: '',
       formHasErrors: false,
+
       title: null,
       describtion: null,
       resType: null,
-      items: ['Breakfast', 'Lunch', 'Diner', 'Snack'],
       resTags: null,
+      AddedProducts: [],
+      timetocook: null,
+      imagefile: null,
+      kcal: null,
+      fat: null,
+      carbs: null,
+      protein: null,
+
+      items: ['Breakfast', 'Lunch', 'Diner', 'Snack'],
       tags: [],
       AddTagWindow: false,
       newTag: null,
@@ -152,17 +164,25 @@ export default {
         sortBy: 'name'
       },
       selected: [],
-      AddedProducts: [],
-      timetocook: null,
-      imagefile: null,
-      kcal: null,
-      fat: null,
-      carbs: null,
-      protein: null,
       ProductLis: []
     }
   },
   async mounted () {
+    try {
+      this.title = this.$store.state.savedProduct.title
+      this.describtion = this.$store.state.savedProduct.describtion
+      this.resType = this.$store.state.savedProduct.resType
+      this.resTags = this.$store.state.savedProduct.resTags
+      this.AddedProducts = this.$store.state.savedProduct.AddedProducts
+      this.timetocook = this.$store.state.savedProduct.timetocook
+      this.imagefile = this.$store.state.savedProduct.imagefile
+      this.kcal = this.$store.state.savedProduct.kcal
+      this.fat = this.$store.state.savedProduct.fat
+      this.carbs = this.$store.state.savedProduct.carbs
+      this.protein = this.$store.state.savedProduct.protein
+    } catch (err) {
+      console.log(err)
+    }
     try {
       this.response = await RecipeAPI.getallproducts()
       this.response.data.forEach((element) => this.Products.push(element))
@@ -192,12 +212,30 @@ export default {
     }
   },
   methods: {
+    navigate (route) {
+      this.$router.push(route)
+    },
     resetForm () {
       this.errorMessages = []
       this.formHasErrors = false
 
       Object.keys(this.form).forEach(f => {
         this.$refs[f].reset()
+      })
+    },
+    saveProduct () {
+      this.$store.dispatch('saveProduct', {
+        title: this.title,
+        describtion: this.describtion,
+        resType: this.resType,
+        resTags: this.resTags,
+        AddedProducts: this.AddedProducts,
+        timetocook: this.timetocook,
+        imagefile: this.imagefile,
+        kcal: this.kcal,
+        fat: this.fat,
+        carbs: this.carbs,
+        protein: this.protein
       })
     },
     AddNewTag () {
@@ -239,7 +277,6 @@ export default {
           amount: element.amount
         })
       })
-      console.log(this.ProductLis)
       if (!this.formHasErrors) {
         this.recipe = {
           title: this.title,

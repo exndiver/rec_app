@@ -10,10 +10,16 @@ export default{
   removerecipebyid (id) {
     return Api().post('DelRecipeById', id)
   },
+
+  // Products
+
   getallproducts () {
     return Api().get('GetAllProducts')
   },
   searchproducts (name) {
     return Api().get('SearchProducts/' + name)
+  },
+  addproduct (product) {
+    return Api().post('AddProduct', product)
   }
 }

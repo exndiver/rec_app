@@ -20,6 +20,7 @@ module.exports = (app) => {
 
   app.get('/GetAllProducts', ProductsApi.getAllProducts)
   app.get('/SearchProducts/:productName', ProductsApi.searchProducts)
+  app.post('/AddProduct', ProductsApi.addProduct)
 
   app.post('/AddTag', TagsApi.addTag)
   app.get('/GetAllTags', TagsApi.getTags)

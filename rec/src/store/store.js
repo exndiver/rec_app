@@ -26,7 +26,20 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    savedProduct: {
+      title: null,
+      describtion: null,
+      resType: null,
+      resTags: null,
+      AddedProducts: [],
+      timetocook: null,
+      imagefile: null,
+      kcal: null,
+      fat: null,
+      carbs: null,
+      protein: null
+    }
   },
   mutations: {
     setToken (state, token) {
@@ -35,6 +48,9 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    saveProduct (state, savedProduct) {
+      state.savedProduct = savedProduct
     }
   },
   actions: {
@@ -43,6 +59,9 @@ export default new Vuex.Store({
     },
     setUser ({commit}, user) {
       commit('setUser', user)
+    },
+    saveProduct ({commit}, savedProduct) {
+      commit('saveProduct', savedProduct)
     }
   },
   plugins: [vuexPersistStorage.plugin, vuexPersistCookies.plugin]
