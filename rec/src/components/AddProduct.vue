@@ -94,7 +94,7 @@ export default {
           }
         }
       }
-      const response = await RecipeAPI.addproduct(this.product)
+      await RecipeAPI.addproduct(this.product)
     }
   }
 }

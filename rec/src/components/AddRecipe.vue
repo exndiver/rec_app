@@ -239,7 +239,7 @@ export default {
       })
     },
     async AddNewTag () {
-      const response = await TagsAPI.addtag({
+      await TagsAPI.addtag({
         name: this.newTag
       })
       this.response = await TagsAPI.getalltags()
