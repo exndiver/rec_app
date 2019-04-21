@@ -21,6 +21,7 @@ module.exports = {
       const recipeJson = recipe.toJSON()
       recipeJson.ingedients = JSON.parse(recipeJson.ingedients)
       recipeJson.type = JSON.parse(recipeJson.type)
+      recipeJson.composition = JSON.parse(recipeJson.composition)
       res.send({
         recipe: recipeJson
       })
