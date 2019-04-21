@@ -95,7 +95,6 @@ export default {
         }
       }
       const response = await RecipeAPI.addproduct(this.product)
-      console.log(response)
     }
   }
 }

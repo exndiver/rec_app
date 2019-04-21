@@ -1,5 +1,5 @@
 const AuthApi = require('./api/AuthApi')
-const RecApi = require('./api/RecipApi')
+const RecApi = require('./api/RecipeApi')
 const ProductsApi = require('./api/ProductsApi')
 const TagsApi = require('./api/TagsApi')
 const AuthPolicy = require('./policies/AuthPolicy')

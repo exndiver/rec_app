@@ -242,7 +242,6 @@ export default {
       const response = await TagsAPI.addtag({
         name: this.newTag
       })
-      console.log(response)
       this.response = await TagsAPI.getalltags()
       this.response.data['tag'].forEach((element) => this.tags.push(element))
       this.AddTagWindow = false

@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-  const Tag = sequelize.define('Tag', {
+  const Tags = sequelize.define('Tags', {
     name: {
       type: DataTypes.STRING,
       allowNull: false
     }
   })
-  Tag.associate = (models) => {
-    Tag.belongsToMany(models.Recipe, {
+  Tags.associate = (models) => {
+    Tags.belongsToMany(models.Recipes, {
       through: 'RecipeTags',
       as: 'Recipes',
       foreignKey: 'TagID'
     })
   }
-  return Tag
+  return Tags
 }

@@ -1,14 +1,22 @@
-const { Recipe } = require('../models/')
+const { Recipes } = require('../models/')
+const { Tags } = require('../models/')
 const { RecipeTags } = require('../models/')
 
 module.exports = {
   async getRecById (req, res) {
     try {
       const recipeId = req.body.id
-      const recipe = await Recipe.findOne({
+      const recipe = await Recipes.findOne({
         where: {
           id: recipeId
-        }
+        },
+        include: [{
+          model: Tags,
+          as: 'Tags',
+          required: false,
+          attributes: ['id', 'name'],
+          through: { attributes: [] }
+        }]
       })
       const recipeJson = recipe.toJSON()
       res.send({
@@ -25,7 +33,7 @@ module.exports = {
   async DelRecById (req, res) {
     try {
       const recipeId = req.body.id
-      await Recipe.destroy({
+      await Recipes.destroy({
         where: {
           id: recipeId
         }
@@ -43,7 +51,7 @@ module.exports = {
 
   async addRecipe (req, res) {
     try {
-      const recipe = await Recipe.create(req.body)
+      const recipe = await Recipes.create(req.body)
       const recipeJson = recipe.toJSON()
       JSON.parse(req.body.tags).forEach(element => {
         const tagstolink = {
@@ -52,16 +60,8 @@ module.exports = {
         }
         RecipeTags.create(tagstolink)
       })
-
-      /*
-      cons tagstolink = {
-        RecipeID: recipeJson.id,
-        TagID: req.body.
-      }
-      const recipetags = RecipeTags.create() */
       res.send({
         recipe: recipeJson
-        // tags: recipetags
       })
     } catch (err) {
       console.log(err)

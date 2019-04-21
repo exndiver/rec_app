@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Recipe = sequelize.define('Recipe', {
+  const Recipes = sequelize.define('Recipes', {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     type: DataTypes.STRING,
@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     kcal: DataTypes.STRING,
     composition: DataTypes.STRING
   })
-  Recipe.associate = (models) => {
-    Recipe.belongsToMany(models.Tags, {
+  Recipes.associate = (models) => {
+    Recipes.belongsToMany(models.Tags, {
       through: 'RecipeTags',
       as: 'Tags',
       foreignKey: 'RecipeID'
     })
   }
-  return Recipe
+  return Recipes
 }

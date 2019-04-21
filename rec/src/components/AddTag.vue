@@ -66,7 +66,6 @@ export default {
         const response = await TagsAPI.addtag({
           name: this.title
         })
-        console.log(response)
         this.resetForm()
       }
     }

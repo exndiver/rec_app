@@ -1,10 +1,10 @@
-const { Tag } = require('../models')
+const { Tags } = require('../models')
 
 module.exports = {
   async getTagById (req, res) {
     try {
       const tagId = req.body.id
-      const tag = await Tag.findOne({
+      const tag = await Tags.findOne({
         where: {
           id: tagId
         }
@@ -22,7 +22,7 @@ module.exports = {
   },
   async getTags (req, res) {
     try {
-      const tag = await Tag.findAll({ raw: true })
+      const tag = await Tags.findAll({ raw: true })
       // const tagJson = tag.toJSON()
       res.send({
         tag: tag
@@ -37,7 +37,7 @@ module.exports = {
   async DelTagById (req, res) {
     try {
       const tagId = req.body.id
-      await Tag.destroy({
+      await Tags.destroy({
         where: {
           id: tagId
         }
@@ -55,8 +55,7 @@ module.exports = {
 
   async addTag (req, res) {
     try {
-      console.log(req)
-      const tag = await Tag.create(req.body)
+      const tag = await Tags.create(req.body)
       const tagJson = tag.toJSON()
       res.send({
         tag: tagJson
