@@ -5,7 +5,7 @@ To run execute in both dirs:
 ```
 npm install
 ```
-Then in bacend:
+Then in backend:
 ```
 npm start
 ```
