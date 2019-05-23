@@ -7,7 +7,7 @@ module.exports = {
     options: {
       dialect: process.env.DBDIALECT || 'sqlite',
       host: process.env.DBHOST || 'localhost',
-      storage: './reciples.sqlite'
+      storage: process.env.DBSTORAGE ||'./reciples.sqlite'
     }
   },
   auth: {
