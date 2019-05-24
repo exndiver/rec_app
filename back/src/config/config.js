@@ -3,7 +3,7 @@ module.exports = {
   db: {
     database: process.env.DATABASE || 'reciples',
     user: process.env.DBUSER || 'www',
-    password: process.env.DBUSER || 'www',
+    password: process.env.DBPASWD || 'www',
     options: {
       dialect: process.env.DBDIALECT || 'sqlite',
       host: process.env.DBHOST || 'localhost',
