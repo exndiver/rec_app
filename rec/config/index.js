@@ -6,7 +6,7 @@ const path = require('path')
 
 module.exports = {
   dev: {
-    bebaseurl: 'http://localhost:8081' || process.env.BE,
+    // bebaseurl: 'http://localhost:8081' || process.env.BE,
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
