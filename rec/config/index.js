@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = {
   dev: {
-    bebaseurl: process.env.BE,
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
